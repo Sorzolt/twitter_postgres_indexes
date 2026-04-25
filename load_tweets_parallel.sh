@@ -11,19 +11,20 @@ files='/data/tweets/geoTwitter21-01-01.zip
 /data/tweets/geoTwitter21-01-09.zip
 /data/tweets/geoTwitter21-01-10.zip'
 
-
 echo '================================================================================'
 echo 'load pg_denormalized'
 echo '================================================================================'
-# FIXME: copy your solution to the previous problem here
-
-# NOTE:
-# I have removed the pg_normalized code from this repo.
-# The only difference between pg_normalized and pg_normalized_batch is how the data is loaded.
-# Since pg_normalized_batch is faster,
-# we will use that code to load the data.
+for file in $files
+do
+    echo "$file"
+    ./load_denormalized.sh "$file"
+done
 
 echo '================================================================================'
 echo 'load pg_normalized_batch'
 echo '================================================================================'
-# FIXME: copy your solution to the previous problem here
+for file in $files
+do
+    echo "$file"
+    python3 -u load_tweets_batch.py --db=postgresql://postgres:pass@localhost:59433/postgres --inputs "$file"
+done
